@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trouble Shooting 1주차 실습</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    :root{
+      --bg:#f4f7fb;
+      --panel:#ffffff;
+      --panel-2:#f8fafc;
+      --line:#d8e0eb;
+      --line-strong:#b8c5d6;
+      --text:#172033;
+      --muted:#66758b;
+      --blue:#1f6feb;
+      --blue-dark:#184d9f;
+      --red:#dc2626;
+      --yellow:#b7791f;
+      --purple:#7c3aed;
+      --orange:#ea580c;
+      --green:#15803d;
+      --shadow:0 14px 40px rgba(15,23,42,.08);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,#edf4ff 0,#f4f7fb 240px,#f4f7fb 100%);
+      color:var(--text);
+      font-family:"Pretendard","Segoe UI",Arial,sans-serif;
+      letter-spacing:0;
+    }
+    a{color:inherit}
+    .site-top{
+      position:sticky;
+      top:0;
+      z-index:20;
+      background:rgba(255,255,255,.92);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--line);
+    }
+    .top-inner{
+      max-width:1720px;
+      margin:0 auto;
+      padding:14px 24px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:900;
+      font-size:15px;
+    }
+    .brand-mark{
+      width:28px;
+      height:28px;
+      border-radius:8px;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(135deg,var(--blue),#42b7ff);
+      color:#fff;
+      font-weight:900;
+    }
+    .top-note{font-size:12px;color:var(--muted);font-weight:700}
+    .page{
+      max-width:1720px;
+      margin:0 auto;
+      padding:28px 24px 56px;
+    }
+    .hero{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) 360px;
+      gap:20px;
+      align-items:stretch;
+      margin-bottom:22px;
+    }
+    .hero-main,.hero-side,.case-card,.submission{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:16px;
+      box-shadow:var(--shadow);
+    }
+    .hero-main{padding:26px 28px}
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#e8f1ff;
+      color:var(--blue-dark);
+      font-size:12px;
+      font-weight:900;
+      margin-bottom:14px;
+    }
+    h1{
+      margin:0;
+      font-size:clamp(28px,3vw,44px);
+      line-height:1.15;
+      letter-spacing:0;
+    }
+    .hero-main p{
+      max-width:920px;
+      margin:14px 0 0;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.75;
+    }
+    .hero-side{
+      padding:18px;
+      display:grid;
+      gap:10px;
+      align-content:center;
+    }
+    .metric{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px 13px;
+      border:1px solid var(--line);
+      border-radius:10px;
+      background:var(--panel-2);
+    }
+    .metric span{font-size:12px;color:var(--muted);font-weight:800}
+    .metric b{font-size:18px;color:var(--text)}
+    .layout{
+      display:grid;
+      grid-template-columns:248px minmax(0,1fr);
+      gap:20px;
+      align-items:start;
+    }
+    .side-nav{
+      position:sticky;
+      top:76px;
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:14px;
+      box-shadow:var(--shadow);
+      padding:12px;
+    }
+    .side-nav .label{
+      padding:6px 9px 10px;
+      font-size:11px;
+      font-weight:900;
+      color:var(--muted);
+      text-transform:uppercase;
+    }
+    .side-nav a{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px 10px;
+      border-radius:9px;
+      color:#344155;
+      text-decoration:none;
+      font-size:13px;
+      font-weight:850;
+    }
+    .side-nav a:hover{background:#eef5ff;color:var(--blue-dark)}
+    .side-nav small{font-size:11px;color:var(--muted)}
+    .case-card{
+      scroll-margin-top:84px;
+      margin-bottom:20px;
+      overflow:hidden;
+    }
+    .case-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+      padding:18px 20px;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg,#fff,#f9fbff);
+    }
+    .case-title{
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+    }
+    .case-num{
+      flex:0 0 auto;
+      width:34px;
+      height:34px;
+      border-radius:10px;
+      display:grid;
+      place-items:center;
+      color:#fff;
+      background:var(--blue);
+      font-weight:900;
+      font-size:15px;
+    }
+    .case-title h2{
+      margin:0;
+      font-size:22px;
+      line-height:1.25;
+      letter-spacing:0;
+    }
+    .focus{
+      margin-top:4px;
+      font-size:12.5px;
+      color:var(--muted);
+      font-weight:800;
+    }
+    .tag{
+      white-space:nowrap;
+      padding:7px 10px;
+      border-radius:999px;
+      background:#e8f1ff;
+      color:var(--blue-dark);
+      font-size:12px;
+      font-weight:900;
+    }
+    .case-body{padding:18px 20px 20px}
+    .case-summary{
+      margin:0;
+      padding:14px 15px;
+      border-radius:12px;
+      background:#f8fafc;
+      border:1px solid var(--line);
+      color:#475569;
+      font-size:14px;
+      line-height:1.7;
+    }
+    .case-section{margin-top:18px}
+    .section-row{
+      display:flex;
+      align-items:end;
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom:10px;
+    }
+    .case-section h3{
+      margin:0;
+      font-size:14px;
+      letter-spacing:0;
+    }
+    .hint{
+      font-size:11.5px;
+      color:var(--muted);
+      font-weight:750;
+    }
+    .start-grid{
+      display:grid;
+      grid-template-columns:repeat(8,minmax(0,1fr));
+      gap:8px;
+    }
+    .screen-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(360px,1fr));
+      gap:12px;
+    }
+    .screen-card{
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:12px;
+      overflow:hidden;
+    }
+    .shot{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#101827;
+      border-bottom:1px solid var(--line);
+    }
+    .shot img{
+      display:block;
+      width:100%;
+      height:100%;
+      object-fit:contain;
+    }
+    .start-card .shot{height:92px}
+    .screen-card:not(.start-card) .shot{height:clamp(230px,22vw,350px)}
+    .screen-body{padding:10px 11px}
+    .screen-title{
+      margin:0 0 4px;
+      font-size:12.5px;
+      font-weight:900;
+      color:var(--text);
+      line-height:1.35;
+    }
+    .start-card .screen-body{padding:8px}
+    .start-card .screen-title{font-size:11px;margin-bottom:0}
+    .screen-desc{
+      margin:0;
+      font-size:11.5px;
+      line-height:1.55;
+      color:var(--muted);
+    }
+    .start-card .screen-desc{display:none}
+    .analysis-box{
+      margin-top:16px;
+      padding:14px 15px;
+      border:1px solid #c9def7;
+      border-radius:12px;
+      background:linear-gradient(180deg,#f4f9ff,#edf6ff);
+    }
+    .analysis-box strong{
+      display:block;
+      margin-bottom:6px;
+      font-size:13px;
+      color:#183b65;
+    }
+    .analysis-box p{
+      margin:0;
+      color:#38506e;
+      font-size:13px;
+      line-height:1.7;
+    }
+    .submission{
+      scroll-margin-top:84px;
+      padding:20px;
+    }
+    .submission h2{margin:0 0 8px;font-size:22px}
+    .submission p{margin:0;color:var(--muted);font-size:14px;line-height:1.7}
+    .submit-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+      gap:10px;
+      margin-top:14px;
+    }
+    .submit-cell{
+      padding:13px;
+      border:1px dashed var(--line-strong);
+      border-radius:12px;
+      background:#f8fafc;
+    }
+    .submit-cell b{
+      display:block;
+      margin-bottom:5px;
+      font-size:12.5px;
+    }
+    .submit-cell span{
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.55;
+    }
+    @media (max-width:1360px){
+      .start-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+      .start-card .shot{height:116px}
+    }
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr}
+      .layout{grid-template-columns:1fr}
+      .side-nav{position:static}
+      .side-nav div:last-child{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:4px}
+      .screen-grid{grid-template-columns:1fr}
+      .screen-card:not(.start-card) .shot{height:auto;min-height:220px}
+      .screen-card:not(.start-card) .shot img{height:auto}
+    }
+    @media (max-width:640px){
+      .top-inner,.page{padding-left:14px;padding-right:14px}
+      .start-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .case-head{display:block}
+      .tag{display:inline-flex;margin-top:12px}
+      .section-row{display:block}
+      .hint{display:block;margin-top:4px}
+    }
+  </style>
+</head>
+<body>
+  {% set shared_start = [
+    ["/static/img/ts-week1/start/start_01.png","기본 대기 화면","설비 기본 화면에서 wafer 이동 및 PM 대기 상태를 확인한다."],
+    ["/static/img/ts-week1/start/start_02.png","Mode 선택","Trouble Shooting 진입을 위해 Mode 항목을 선택한다."],
+    ["/static/img/ts-week1/start/start_03.png","PM 초기화 화면","대상 Chamber(PM)를 선택하고 Init(All)을 준비한다."],
+    ["/static/img/ts-week1/start/start_04.png","Init(All) 실행","PM 상태를 초기화하고 동작 가능한 상태로 전환한다."],
+    ["/static/img/ts-week1/start/start_05.png","Standby 전환 준비","PM module 화면에서 Standby/System 항목을 확인한다."],
+    ["/static/img/ts-week1/start/start_06.png","System 화면 확인","System 화면에서 설비 상태와 모듈 상태를 확인한다."],
+    ["/static/img/ts-week1/start/start_07.png","설비 위치 확인","상세 화면에서 현재 위치와 module 상태를 확인한다."],
+    ["/static/img/ts-week1/start/start_08.png","기본 화면 복귀","각 Trouble Shooting 메뉴로 진입하기 전 기본 상태로 복귀한다."]
+  ] %}
+
+  {% set cases = [
+    {
+      "id":"mfc",
+      "num":"1",
+      "title":"MFC Flow Alarm",
+      "focus":"O2 flow set/actual, MFC alarm log, gas line part history",
+      "summary":"MFC Flow Alarm 발생 시 recipe set 값과 actual flow를 비교하고, alarm 발생 step 및 직전 상태를 확인한다. MFC 단품 문제인지, regulator 또는 gas line 공급 문제인지까지 후보를 좁히는 기본 사례다.",
+      "closing":"Part 사용일, MFC calibration 이력, regulator 사용 이력, valve 동작 이력을 함께 확인한다. 조치한다면 flow actual이 set에 안정적으로 붙고 MFC Flow Alarm이 재발하지 않을 것으로 예측되는지 정리한다.",
+      "steps":[
+        ["/static/img/ts-week1/mfc/mfc_menu.png","MFC Flow-Alarm 선택","Trouble Shooting 메뉴에서 MFC Flow-Alarm 항목을 선택한다."],
+        ["/static/img/ts-week1/mfc/mfc_01.png","Recipe 확인","Gas1/O2 flow set 값과 step time을 확인한다."],
+        ["/static/img/ts-week1/mfc/mfc_02.png","Process 실행","선택한 recipe를 실행하고 step 진행 상태를 확인한다."],
+        ["/static/img/ts-week1/mfc/mfc_03.png","Flow 이상 확인","O2 flow actual이 set 대비 정상적으로 형성되는지 확인한다."],
+        ["/static/img/ts-week1/mfc/mfc_04.png","Alarm 발생","PM MFC Flow Abort 관련 alarm 명칭과 발생 시점을 확인한다."],
+        ["/static/img/ts-week1/mfc/mfc_05.png","Abort 선택","Process를 중지하고 장비와 chamber 상태를 보호한다."],
+        ["/static/img/ts-week1/mfc/mfc_06.png","Hardware 점검","O2 flow 관련 MFC, regulator, valve, gas line을 순서대로 점검한다."]
+      ]
+    },
+    {
+      "id":"apc",
+      "num":"2",
+      "title":"APC Pressure Alarm",
+      "focus":"Process pressure, APC position, pressure check fail",
+      "summary":"Process 중 pressure가 목표값에 도달하지 못하거나 APC feedback이 맞지 않는 상황을 확인한다. APC valve, gauge, pump, exhaust line 중 어느 쪽에서 압력 제어가 깨졌는지 판단하는 사례다.",
+      "closing":"APC valve 사용일, gauge calibration 이력, pump 및 exhaust 계통 점검 이력을 함께 본다. 조치 후에는 pressure actual이 set 근처로 수렴하고 APC position hunting 또는 Pressure Check Fail이 사라지는지 예측한다.",
+      "steps":[
+        ["/static/img/ts-week1/apc/apc_01.png","Process 중 압력 확인","O2 gas가 flow되는 동안 process pressure가 목표에 도달하는지 확인한다."],
+        ["/static/img/ts-week1/apc/apc_02.png","압력 이상 상황 확인","Pressure/flow 표시값과 진행 상태를 같은 시간축에서 비교한다."],
+        ["/static/img/ts-week1/apc/apc_03.png","APC Pressure Check Fail","Alarm 화면에서 PM APC Pressure Check Fail 발생을 확인한다."],
+        ["/static/img/ts-week1/apc/apc_04.png","APC hardware 점검","Process 정지 후 APC valve, gauge, pump 계통을 점검한다."]
+      ]
+    },
+    {
+      "id":"rf",
+      "num":"3",
+      "title":"RF Generator 문제 사례",
+      "focus":"RF command와 actual readback 불일치를 찾는 과제",
+      "summary":"RF Power Setting값이 0인데 Actual Power가 계속 올라가는 현상.",
+      "closing":"RF Generator 사용일, RF cable, matcher interlock, RF on/off command log, actual readback log를 함께 확인한다. 조치 후에는 command OFF 상태에서 actual readback이 0 W 근처로 떨어지고 RF ON/OFF Timeout Alarm이 해소될 것으로 예측한다.",
+      "steps":[
+        ["/static/img/ts-week1/rf/rf_01.png","Recipe 및 PM Monitor 확인","PM monitor에서 진행 recipe와 RF 관련 set/actual 값을 확인한다."],
+        ["/static/img/ts-week1/rf/rf_02.png","RF actual 이상 확인","RF Power Set이 0 W인데 actual power가 계속 reading되는지 확인한다."],
+        ["/static/img/ts-week1/rf/rf_03.png","RF ON/OFF Timeout Alarm","Alarm 내용을 확인하고 RF Generator 계통 hardware 점검으로 연결한다."]
+      ]
+    },
+    {
+      "id":"temp",
+      "num":"4",
+      "title":"Temp Error",
+      "focus":"Temp set/actual, standby temperature, Go-Init/Go-Standby",
+      "summary":"PM Temp가 Standby 온도에 도달하지 못하거나 actual 값이 비정상적으로 표시되는 상황을 확인한다. 단순 state 전환 문제인지, TC/heater/control 계통 문제인지 구분하는 사례다.",
+      "closing":"Temp는 현재 다시 정상 가동하는 상태다. 재발 시 TC 단선 또는 접촉 상태, heater 출력, SSR/Eurotherm 제어 상태, PM Go-Init/Go-Standby log, heater 관련 part 사용일을 우선 점검한다.",
+      "steps":[
+        ["/static/img/ts-week1/temp/temp_01.png","PM Monitor 온도 확인","Chamber(PM) 온도 set/actual을 확인하고 actual 값이 비정상인지 본다."],
+        ["/static/img/ts-week1/temp/temp_02.png","Temp Standby Alarm","PM Temp is not Standby temperature alarm 발생을 확인한다."],
+        ["/static/img/ts-week1/temp/temp_03.png","Mode 이동","Mode 항목을 선택한 뒤 PM1 Go-Init 실행을 준비한다."],
+        ["/static/img/ts-week1/temp/temp_04.png","PM1 Go-Init","PM1 Go-Init을 실행해 chamber를 초기화한다."],
+        ["/static/img/ts-week1/temp/temp_05.png","Go-Standby 실행","Go-Standby를 실행해 chamber를 standby 상태로 전환한다."],
+        ["/static/img/ts-week1/temp/temp_06.png","Recipe 실행","온도 상태를 다시 확인한 뒤 recipe를 실행한다."],
+        ["/static/img/ts-week1/temp/temp_07.png","정상 온도 확인","정상 온도로 유지되며 process가 진행되는지 확인한다."]
+      ]
+    },
+    {
+      "id":"leak",
+      "num":"5",
+      "title":"Leak Check",
+      "focus":"Gate Valve close, APC Valve close, ROR, Leak Rate",
+      "summary":"현재 Gate Valve와 APC Valve를 close한 상태에서 Leak Check를 진행한 사례다. ROR은 valve close 상태에서 pressure 변화량이며, Leak Rate는 ROR을 시간으로 나눈 값이다.",
+      "closing":"외부에 leak가 있을 때 ROR이 어떻게 변할지, 내부에 leak가 있으면 ROR과 Leak Rate가 어떻게 나타날지 예측해본다.",
+      "steps":[
+        ["/static/img/ts-week1/leak/leak_01.png","Leak Check 화면 진입","Leak Check 조건과 현재 valve close 상태를 확인한다."],
+        ["/static/img/ts-week1/leak/leak_02.png","START 실행","Start 버튼을 눌러 leak check sequence를 실행한다."],
+        ["/static/img/ts-week1/leak/leak_03.png","Leak data 관찰","진행 중 pressure 변화량과 leak rate data를 확인한다."],
+        ["/static/img/ts-week1/leak/leak_04.png","ROR 확인","Valve close 상태에서 pressure 변화량이 어떤 방향으로 움직이는지 확인한다."],
+        ["/static/img/ts-week1/leak/leak_05.png","Abort 및 조치 판단","비정상 결과가 나오면 abort 후 sealing point와 valve 계통 점검으로 연결한다."]
+      ]
+    },
+    {
+      "id":"lift",
+      "num":"6",
+      "title":"Lift Pin Alarm",
+      "focus":"Process 동작 중 time out, home/up/down sensor, LM Guide, motor",
+      "summary":"Process 동작 시 time out이 발생한 사례다. 설비에서 lift up/down 동작에는 정해진 시간이 있고, 그 시간을 벗어나면 Time Out Alarm이 발생한다.",
+      "closing":"현재 다시 실행 시 정상 진행되는 상태다. 재발 시 Home Sensor, Up/Down Sensor, LM Guide 동작 저항, motor 구동력 확인. 조치 후에는 Time Out Error가 재발하는지 확인한다.",
+      "steps":[
+        ["/static/img/ts-week1/lift/lift_01.png","PM 상태 확인","PM module 화면에서 대상 chamber 상태를 확인한다."],
+        ["/static/img/ts-week1/lift/lift_02.png","Motor Position UP","Utility 화면에서 PM1 MotorPosition UP을 실행한다."],
+        ["/static/img/ts-week1/lift/lift_03.png","Process 실행","PM monitor 화면에서 process를 실행한다."],
+        ["/static/img/ts-week1/lift/lift_04.png","Stability Timeout Alarm","PM Process of Stability Mode is time over alarm 발생을 확인한다."],
+        ["/static/img/ts-week1/lift/lift_05.png","Pin Position Down","Pin Position을 Down 시킨 뒤 다시 process 실행을 준비한다."],
+        ["/static/img/ts-week1/lift/lift_06.png","정상 진행 확인","Pin Position이 Down인 상태에서 process가 정상 진행되는지 확인한다."]
+      ]
+    }
+  ] %}
+
+  {% macro shot_card(item, idx, start=false) %}
+    <article class="screen-card{% if start %} start-card{% endif %}">
+      <a class="shot" href="{{ item[0] }}" target="_blank" rel="noreferrer">
+        <img src="{{ item[0] }}" alt="{{ item[1] }}" loading="lazy">
+      </a>
+      <div class="screen-body">
+        <p class="screen-title">{{ idx }}. {{ item[1] }}</p>
+        <p class="screen-desc">{{ item[2] }}</p>
+      </div>
+    </article>
+  {% endmacro %}
+
+  <header class="site-top">
+    <div class="top-inner">
+      <div class="brand"><span class="brand-mark">TS</span> Trouble Shooting Week 1 Lab</div>
+      <div class="top-note">Standalone training page · 6 basic cases</div>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="hero-main">
+        <div class="eyebrow">반도체 설비 직무 교육 · 1주차 실습</div>
+        <h1>기본 Trouble Shooting 6가지</h1>
+        <p>
+          기본 화면에서 시작해 실제 alarm 화면까지 이어지는 6가지 기본 Trouble Shooting 실습이다.
+          멘티는 FDC/Alarm 근거, part 이력, 조치 후 trend 변화를 함께 정리한다.
+        </p>
+      </div>
+      <aside class="hero-side" aria-label="실습 구성 요약">
+        <div class="metric"><span>Cases</span><b>6</b></div>
+        <div class="metric"><span>Start screenshots</span><b>8 x 6</b></div>
+        <div class="metric"><span>Total screenshots</span><b>80</b></div>
+      </aside>
+    </section>
+
+    <div class="layout">
+      <nav class="side-nav" aria-label="사례 이동">
+        <div class="label">Case Navigation</div>
+        <div>
+          {% for c in cases %}
+          <a href="#case-{{ c.id }}"><span>{{ c.num }}. {{ c.title }}</span><small>이동</small></a>
+          {% endfor %}
+          <a href="#submission"><span>제출 양식</span><small>공통</small></a>
+        </div>
+      </nav>
+
+      <div>
+        {% for c in cases %}
+        <section class="case-card" id="case-{{ c.id }}">
+          <div class="case-head">
+            <div class="case-title">
+              <div class="case-num">{{ c.num }}</div>
+              <div>
+                <h2>{{ c.title }}</h2>
+                <div class="focus">{{ c.focus }}</div>
+              </div>
+            </div>
+            <div class="tag">현업 기본 사례</div>
+          </div>
+
+          <div class="case-body">
+            <p class="case-summary">{{ c.summary }}</p>
+
+            <div class="case-section">
+              <div class="section-row">
+                <h3>기본 화면 시작 시퀀스</h3>
+                <span class="hint">작게 정렬한 공통 진입 화면 · 클릭 시 원본 보기</span>
+              </div>
+              <div class="start-grid">
+                {% for item in shared_start %}
+                  {{ shot_card(item, loop.index, true) }}
+                {% endfor %}
+              </div>
+            </div>
+
+            <div class="case-section">
+              <div class="section-row">
+                <h3>Trouble Shooting 진행 화면</h3>
+                <span class="hint">캡처 전체가 잘리지 않도록 맞춤 표시</span>
+              </div>
+              <div class="screen-grid">
+                {% for item in c.steps %}
+                  {{ shot_card(item, loop.index, false) }}
+                {% endfor %}
+              </div>
+            </div>
+
+            <div class="analysis-box">
+              <strong>정리 포인트</strong>
+              <p>{{ c.closing }}</p>
+            </div>
+          </div>
+        </section>
+        {% endfor %}
+
+        <section class="submission" id="submission">
+          <h2>멘티 제출 양식</h2>
+          <p>
+            각 Trouble Shooting 사례마다 아래 항목을 채운다. 단순히 alarm명을 맞히는 것이 아니라,
+            화면 근거와 part 사용일 등 이력을 함께 보고 조치 후 FDC Data와 Alarm이 어떻게 바뀔지까지 예측한다.
+          </p>
+          <div class="submit-grid">
+            <div class="submit-cell"><b>1. 현상</b><span>화면에서 실제로 보이는 alarm, 이상값, 진행 step</span></div>
+            <div class="submit-cell"><b>2. FDC / 화면 근거</b><span>Set, actual, command, readback, pressure, position 등 핵심 parameter</span></div>
+            <div class="submit-cell"><b>3. Alarm / Log</b><span>Alarm name, 발생 step, 발생 전후 상태 변화</span></div>
+            <div class="submit-cell"><b>4. Part 이력</b><span>Part 사용일, 교체 이력, calibration 이력, 최근 PM 이력</span></div>
+            <div class="submit-cell"><b>5. 원인 후보 및 조치</b><span>가장 가능성 높은 원인 후보와 1차 점검/교체/조정 방향</span></div>
+            <div class="submit-cell"><b>6. 조치 후 예측</b><span>FDC trend, Alarm 재발 여부, back-up run에서 정상으로 봐야 할 기준</span></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
